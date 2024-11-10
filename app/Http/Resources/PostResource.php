@@ -16,7 +16,7 @@ class PostResource extends JsonResource
     {
         return [
             'identification' => $this->getId(),
-            'contenu_post' => new CategorieResource($this->categorie),
+            'contenu_categorie' => new CategorieResource($this->categorie),
             'contenu_post' => $this->getContent(),
             'date_ajout' => $this->getCreatedAt(),
             'date_modification' => $this->getUpdatedAt(),
