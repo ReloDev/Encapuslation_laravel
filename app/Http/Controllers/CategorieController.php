@@ -37,10 +37,10 @@ class CategorieController extends Controller
     public function store(Request $request){
         try{
             $request->validate([
-                'name' =>'required',  // Cette validation est cruciale pour s'assurer qu'une valeur est fournie
+                'name' =>'required',  
             ]);
            
-            $this->categorie->name = $request->name;
+            $this->categorie->setName($request->name);
             $this->categorie->save();
             return $this->service->apiResponse(200,new CategorieResource($this->categorie),"Categorie stockée avec succès");
         }catch(Exception $e){
@@ -72,7 +72,7 @@ class CategorieController extends Controller
             if(!$categorie){
                 return $this->service->apiResponse(404,[],"Catégorie non trouvé");
             }
-            $categorie->name = $this->categorie->setName($request->name);
+            $this->categorie->setName($request->name);
             $categorie->save();
             return $this->service->apiResponse(200,new CategorieResource($this->categorie),"Categorie modifié avec succès");
         }catch(Exception $e){

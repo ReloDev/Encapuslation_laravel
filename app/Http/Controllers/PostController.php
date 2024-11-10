@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Http\Resources\PostResource;
+use App\Models\Categorie;
 use App\Models\Post;
 use App\Services\Utility;
 use Exception;
@@ -40,8 +41,12 @@ class PostController extends Controller
                 'content' =>'required',
                 'categorie_id' =>'required',
             ]);
-            $this->post->content = ($request->content);
-            $this->post->categorie_id =($request->categorie_id);
+            $categorie = Categorie::find($request->categorie_id);
+            if(!$categorie){
+                return $this->service->apiResponse(404,[],"Catégorie non trouvé");
+            } 
+            $this->post->setContent($request->content);
+            $this->post->setCategorieId($request->categorie_id);
             $this->post->save();
             return $this->service->apiResponse(200,new PostResource($this->post),"Post stocké avec succès");
         }catch(Exception $e){
